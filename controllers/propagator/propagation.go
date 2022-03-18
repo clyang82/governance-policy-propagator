@@ -797,6 +797,17 @@ func (r *PolicyReconciler) handleDecision(instance *policiesv1.Policy, decision 
 				_ = r.processTemplates(replicatedPlc, decision, instance)
 			}
 
+			// filter out non-policy annotations.
+			annotations := map[string]string{}
+			if replicatedPlc.GetAnnotations() != nil {
+				for key, value := range replicatedPlc.GetAnnotations() {
+					if strings.Contains(key, "policy.open-cluster-management.io") {
+						annotations[key] = value
+					}
+				}
+			}
+			replicatedPlc.SetAnnotations(annotations)
+
 			log.Info("Creating the replicated policy")
 
 			err = r.Create(context.TODO(), replicatedPlc)
