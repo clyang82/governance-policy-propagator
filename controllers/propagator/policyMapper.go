@@ -54,6 +54,10 @@ func policyMapper(c client.Client) handler.MapFunc {
 
 			name = object.GetName()
 			namespace = object.GetNamespace()
+
+			if _, ok := object.GetAnnotations()["hub-of-hubs.open-cluster-management.io/local-policy"]; !ok {
+				return nil
+			}
 		}
 
 		request := reconcile.Request{NamespacedName: types.NamespacedName{
