@@ -25,6 +25,12 @@ func placementBindingMapper(c client.Client) handler.MapFunc {
 
 		log.V(2).Info("Reconcile request for a PlacementBinding")
 
+		if _, ok := object.GetAnnotations()["hub-of-hubs.open-cluster-management.io/local-policy"]; !ok {
+			log.V(2).Info("Found a global placementbinding, skipping it")
+
+			return nil
+		}
+
 		subjects := object.Subjects
 		for _, subject := range subjects {
 			if subject.APIGroup == policiesv1.SchemeGroupVersion.Group {
