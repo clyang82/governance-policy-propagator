@@ -25,7 +25,7 @@ func placementBindingMapper(c client.Client) handler.MapFunc {
 
 		log.V(2).Info("Reconcile request for a PlacementBinding")
 
-		if _, ok := object.GetAnnotations()["hub-of-hubs.open-cluster-management.io/local-resource"]; !ok {
+		if _, ok := object.GetLabels()["hub-of-hubs.open-cluster-management.io/local-resource"]; !ok {
 			log.V(2).Info("Found a global placementbinding, skipping it")
 
 			return nil
