@@ -55,7 +55,7 @@ func policyMapper(c client.Client) handler.MapFunc {
 			name = object.GetName()
 			namespace = object.GetNamespace()
 
-			if _, ok := object.GetLabels()["hub-of-hubs.open-cluster-management.io/local-resource"]; !ok {
+			if _, ok := object.GetLabels()["global-hub.open-cluster-management.io/local-resource"]; !ok {
 				log.V(2).Info("Found a global policy, skipping it")
 
 				return nil
